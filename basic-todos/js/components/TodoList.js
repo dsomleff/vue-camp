@@ -11,10 +11,9 @@ export default {
             </h2>
             
            <todo-tags
-                :initial-tags="todos.map(todo => todo.tag)"
-                :current-tag="currentTag"
-                @change="currentTag = $event"
-            />
+               v-model:currentTag="currentTag"
+               :initial-tags="todos.map(todo => todo.tag)"
+           ></todo-tags>
     
             <ul class="border border-gray-600 divide-y divide-gray-600 mt-6">
                 <todo v-for="todo in filteredTodos" :key="todo.id" :todo="todo"></todo>
