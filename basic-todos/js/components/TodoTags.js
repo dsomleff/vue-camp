@@ -14,6 +14,7 @@ export default {
         </div>
     `,
     
+    /** @type {{ initialTags: ArrayConstructor, currentTag: StringConstructor }} */
     props: {
         initialTags: Array,
         currentTag: String,

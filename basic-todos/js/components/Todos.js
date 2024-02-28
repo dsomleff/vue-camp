@@ -20,18 +20,12 @@ export default {
              * @property {number} id
              * @property {string} tag
              */
-            todos: [
-                {name: 'Feed the cat', complete: false, id: 1, tag: 'math'},
-                {name: 'Love Ju', complete: false, id: 2, tag: 'science'},
-                {name: 'Find new job', complete: false, id: 3, tag: 'math'}
-            ],
+            todos: [],
         };
     },
     
     computed: {
-        /**
-         * @return {Object}
-         */
+        /** @return {Object} */
         filters() {
             /** @type {{ inProgress: Array<Object>, completed: Array<Object>}}*/
             return {
@@ -41,10 +35,16 @@ export default {
         }
     },
     
+    created() {
+        fetch('http://localhost:56052/todos')
+            .then(response => response.json())
+            .then(todos => {
+                this.todos = todos
+            })
+    },
+    
     methods: {
-        /**
-         * @param {string} name
-         */
+        /** @param {string} name */
         add(name) {
             this.todos.push({
                 name,

@@ -1,0 +1,22 @@
+{
+    "todos": [
+        {
+            "name": "Feed the cat",
+            "complete": false,
+            "id": 1,
+            "tag": "math"
+        },
+        {
+            "name": "Love Ju",
+            "complete": false,
+            "id": 2,
+            "tag": "science"
+        },
+        {
+            "name": "Find new job",
+            "complete": false,
+            "id": 3,
+            "tag": "math"
+        }
+    ]
+}
