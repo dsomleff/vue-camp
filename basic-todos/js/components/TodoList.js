@@ -10,7 +10,16 @@ export default {
             </h2>
             
             <div class="flex gap-2 ">
-                <button @click="currentTag = tag" v-for="tag in tags" class="border rounded px-1 py-px text-xs">{{ tag }}</button>
+                <button
+                    @click="currentTag = tag"
+                    v-for="tag in tags"
+                    class="border rounded px-1 py-px text-xs"
+                    :class="{
+                        'border-blue-500 text-blue-500': tag === currentTag
+                    }"
+                >
+                    {{ tag }}
+                </button>
             </div>
     
             <ul class="border border-gray-600 divide-y divide-gray-600 mt-6">
@@ -25,25 +34,26 @@ export default {
         title: String,
     },
     
-    /**
-     * @return {{currentTag: string}}
-     */
+    /** @return {{currentTag: string}} */
     data() {
         return {
-            currentTag: ''
+            currentTag: 'all'
         };
     },
     
     computed: {
+        /** @return {Array<Object>} */
         filteredTodos() {
+            if (this.currentTag === 'all') {
+                return this.todos;
+            }
+            
             return this.todos.filter(todo => todo.tag === this.currentTag);
         } ,
         
-        /**
-         * @return {Set<string|string|*>}
-         */
+        /** @return [string, Set<string>] */
         tags() {
-            return new Set(this.todos.map(todo => todo.tag));
+            return ['all', ...new Set(this.todos.map(todo => todo.tag))];
         }
     }
 }
