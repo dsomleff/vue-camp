@@ -1,10 +1,11 @@
 import Todo from "./Todo.js";
 import TodoTags from "./TodoTags.js";
+import Panel from "./Panel.js";
 
 export default {
-    components: {Todo, TodoTags},
+    components: {Todo, TodoTags, Panel},
     template: `
-        <section v-show="todos.length" class="w-60">
+        <Panel v-show="todos.length" class="w-60">
             <div class="flex justify-between items-start">
                 <h2 class="font-bold mb-2">
                     {{title}}
@@ -24,7 +25,9 @@ export default {
             </ul>
 
             <slot></slot>
-        </section>
+            
+            <template #footer>My footer</template>
+        </Panel>
     `,
     
     /** @type {{ todos: ArrayConstructor, title: StringConstructor}} */

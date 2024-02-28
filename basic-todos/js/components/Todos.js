@@ -6,7 +6,7 @@ export default {
     template: `
         <section class="flex gap-8">
             <todo-list :todos="filters.inProgress" title="In Progress">
-                <todo-create @add="add"></todo-create>
+                <todo-create @add="add" class="pt-6"></todo-create>
             </todo-list>
             
             <div v-show="showCompleted">
