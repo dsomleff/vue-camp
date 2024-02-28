@@ -1,7 +1,8 @@
 import Todo from "./Todo.js";
+import TodoTags from "./TodoTags.js";
 
 export default {
-    components: {Todo},
+    components: {Todo, TodoTags},
     template: `
         <section v-show="todos.length">
             <h2 class="font-bold mb-2">
@@ -9,18 +10,11 @@ export default {
                 <span>({{ todos.length }})</span>
             </h2>
             
-            <div class="flex gap-2 ">
-                <button
-                    @click="currentTag = tag"
-                    v-for="tag in tags"
-                    class="border rounded px-1 py-px text-xs"
-                    :class="{
-                        'border-blue-500 text-blue-500': tag === currentTag
-                    }"
-                >
-                    {{ tag }}
-                </button>
-            </div>
+           <todo-tags
+                :initial-tags="todos.map(todo => todo.tag)"
+                :current-tag="currentTag"
+                @change="currentTag = $event"
+            />
     
             <ul class="border border-gray-600 divide-y divide-gray-600 mt-6">
                 <todo v-for="todo in filteredTodos" :key="todo.id" :todo="todo"></todo>
@@ -50,10 +44,5 @@ export default {
             
             return this.todos.filter(todo => todo.tag === this.currentTag);
         } ,
-        
-        /** @return [string, Set<string>] */
-        tags() {
-            return ['all', ...new Set(this.todos.map(todo => todo.tag))];
-        }
     }
 }
