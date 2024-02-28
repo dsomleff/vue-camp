@@ -8,6 +8,9 @@ export default {
         </form>
     `,
     
+    /**
+     * @return {{newTodo: string}}
+     */
     data() {
         return {
             newTodo: ''

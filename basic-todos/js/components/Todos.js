@@ -14,6 +14,12 @@ export default {
     
     data() {
         return {
+            /**
+             * @property {string} name
+             * @property {boolean} complete
+             * @property {number} id
+             * @property {string} tag
+             */
             todos: [
                 {name: 'Feed the cat', complete: false, id: 1, tag: 'math'},
                 {name: 'Love Ju', complete: false, id: 2, tag: 'science'},
@@ -23,7 +29,11 @@ export default {
     },
     
     computed: {
+        /**
+         * @return {Object}
+         */
         filters() {
+            /** @type {{ inProgress: Array<Object>, completed: Array<Object>}}*/
             return {
                 inProgress: this.todos.filter(a => !a.complete),
                 completed: this.todos.filter(a => a.complete),
@@ -32,6 +42,9 @@ export default {
     },
     
     methods: {
+        /**
+         * @param {string} name
+         */
         add(name) {
             this.todos.push({
                 name,
