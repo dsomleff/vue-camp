@@ -4,11 +4,20 @@ import TodoCreate from "./TodoCreate.js";
 export default {
     components: {TodoList, TodoCreate},
     template: `
-        <section class="space-y-6">
-            <todo-list :todos="filters.inProgress" title="In Progress"></todo-list>
-            <todo-list :todos="filters.completed" title="Completed" class="mt-8"></todo-list>
+        <section class="flex gap-8">
+            <todo-list :todos="filters.inProgress" title="In Progress">
+                <todo-create @add="add"></todo-create>
+            </todo-list>
             
-            <todo-create @add="add"></todo-create>
+            <div v-show="showCompleted">
+                <todo-list
+                    :todos="filters.completed"
+                    title="Completed"
+                    can-toggle
+                    @toggle="showCompleted = !showCompleted"
+                ></todo-list>
+            </div>
+            
         </section>
     `,
     
@@ -21,6 +30,8 @@ export default {
              * @property {string} tag
              */
             todos: [],
+            /** @type boolean */
+            showCompleted: true
         };
     },
     
