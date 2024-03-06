@@ -51,7 +51,7 @@ describe('Sign Up', () => {
     });
     
     it('should have Sign Up button', () => {
-        const button = screen.getByRole('button', {name: 'Sign Up'});
+        const button = screen.getByRole('button', {name: 'SignUp'});
         
         expect(button).toBeInTheDocument();
     });

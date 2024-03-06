@@ -3,6 +3,13 @@
     "semi": true,
     "tabWidth": 4,
     "singleQuote": true,
-    "printWidth": 100,
-    "trailingComma": "true"
+    "printWidth": 120,
+    "useTabs": false,
+    "quoteProps": "as-needed",
+    "trailingComma": "true",
+    "bracketSpacing": true,
+    "bracketSameLine": false,
+    "arrowParens": "avoid",
+    "endOfLine": "lf",
+    "singleAttributePerLine": true
 }

@@ -2,42 +2,49 @@
     <h1>Sign Up</h1>
 
     <p>
-        <label for="username">Username</label>
+        <label for="username">Username </label>
         <input id="username">
     </p>
 
     <p>
-        <label for="username">Mail</label>
+        <label for="username">Mail </label>
         <input id="email">
     </p>
 
     <p>
-        <label for="password">Password</label>
-        <input id="password" type="password" @input="onChangePassword">
+        <label for="password">Password </label>
+        <input
+            id="password"
+            v-model="password"
+            type="password"
+        >
     </p>
 
     <p>
-        <label for="passwordRepeat">Password Repeat</label>
-        <input id="passwordRepeat" type="password" @input="onChangePasswordRepeat">
+        <label for="passwordRepeat">Password Repeat </label>
+        <input
+            id="passwordRepeat"
+            v-model="passwordRepeat"
+            type="password"
+        >
     </p>
 
-    <button :disabled="disabled">SignUp</button>
+    <button :disabled="isDisabled">
+        SignUp
+    </button>
 </template>
 
 <script setup>
-    import {ref} from 'vue';
+import { computed, ref } from 'vue';
 
-    let disabled = ref(false);
-    let password = ref('');
-    let passwordRepeat = ref('');
+/** @type {Ref<UnwrapRef<string>>} */
+let password = ref('');
 
-    const onChangePassword = (e) => {
-        password.value = e.target.value;
-        disabled.value = password.value !== passwordRepeat.value
-    }
+/** @type {Ref<UnwrapRef<string>>} */
+let passwordRepeat = ref('');
 
-    const onChangePasswordRepeat = (e) => {
-        passwordRepeat.value = e.target.value;
-        disabled.value = password.value !== passwordRepeat.value
-    }
+/** @type {ComputedRef<boolean>} */
+const isDisabled = computed(() => {
+    return password.value !== passwordRepeat.value || !password.value || !passwordRepeat.value;
+});
 </script>
