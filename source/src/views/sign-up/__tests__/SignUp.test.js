@@ -1,6 +1,7 @@
 import { render, screen } from '@testing-library/vue';
 import SignUp from '@/views/sign-up/SignUp.vue';
 import { expect, describe, it, beforeEach } from 'vitest';
+import { userEvent } from '@testing-library/user-event';
 
 describe('Sign Up', () => {
     beforeEach(() => {
@@ -55,9 +56,27 @@ describe('Sign Up', () => {
         expect(button).toBeInTheDocument();
     });
     
-    it('should have Sign Up Button disabled initially', () => {
-        const button = screen.getByRole('button', {name: 'Sign Up'});
+    it('should have SignUp Button disabled initially', () => {
+        const button = screen.getByRole('button', {name: 'SignUp'});
         
         expect(button).toBeDisabled();
     });
 });
+
+describe('When User put password values correctly', () => {
+    beforeEach(() => {
+        render(SignUp);
+    });
+    
+    it('should enable SignUp button', async () => {
+        const user = userEvent.setup();
+        const password = screen.getByLabelText('Password', {});
+        const passwordRepeat = screen.getByLabelText('Password Repeat', {});
+        const button = screen.getByRole('button', {name: 'SignUp'});
+        
+        await user.type(password, 'P4ssword');
+        await user.type(passwordRepeat, 'P4ssword');
+        
+        expect(button).toBeEnabled();
+    });
+})
