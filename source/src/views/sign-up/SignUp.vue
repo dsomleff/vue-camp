@@ -3,12 +3,18 @@
 
     <p>
         <label for="username">Username </label>
-        <input id="username">
+        <input
+            id="username"
+            v-model="username"
+        >
     </p>
 
     <p>
-        <label for="username">Mail </label>
-        <input id="email">
+        <label for="email">E-Mail </label>
+        <input
+            id="email"
+            v-model="email"
+        >
     </p>
 
     <p>
@@ -29,22 +35,33 @@
         >
     </p>
 
-    <button :disabled="isDisabled">
+    <button
+        :disabled="isDisabled"
+        @click="submit"
+    >
         SignUp
     </button>
 </template>
 
 <script setup>
 import { computed, ref } from 'vue';
+import axios from 'axios';
 
-/** @type {Ref<UnwrapRef<string>>} */
+let username = ref('');
+let email = ref('');
 let password = ref('');
 
-/** @type {Ref<UnwrapRef<string>>} */
 let passwordRepeat = ref('');
 
-/** @type {ComputedRef<boolean>} */
 const isDisabled = computed(() => {
     return password.value !== passwordRepeat.value || !password.value || !passwordRepeat.value;
 });
+
+const submit = () => {
+    axios.post('/api/v1/users', {
+        username: username.value,
+        email: email.value,
+        password: password.value
+    })
+}
 </script>
