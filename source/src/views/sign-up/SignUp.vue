@@ -5,7 +5,7 @@
         <label for="username">Username </label>
         <input
             id="username"
-            v-model="username"
+            v-model="formState.username"
         >
     </p>
 
@@ -13,7 +13,7 @@
         <label for="email">E-Mail </label>
         <input
             id="email"
-            v-model="email"
+            v-model="formState.email"
         >
     </p>
 
@@ -21,7 +21,7 @@
         <label for="password">Password </label>
         <input
             id="password"
-            v-model="password"
+            v-model="formState.password"
             type="password"
         >
     </p>
@@ -30,7 +30,7 @@
         <label for="passwordRepeat">Password Repeat </label>
         <input
             id="passwordRepeat"
-            v-model="passwordRepeat"
+            v-model="formState.passwordRepeat"
             type="password"
         >
     </p>
@@ -44,24 +44,24 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, reactive } from 'vue';
 import axios from 'axios';
 
-let username = ref('');
-let email = ref('');
-let password = ref('');
-
-let passwordRepeat = ref('');
+const formState = reactive({
+    username: '',
+    email: '',
+    password: '',
+    passwordRepeat: ''
+});
 
 const isDisabled = computed(() => {
-    return password.value !== passwordRepeat.value || !password.value || !passwordRepeat.value;
+    return formState.password !== formState.passwordRepeat
+        || !formState.password
+        || !formState.passwordRepeat;
 });
 
 const submit = () => {
-    axios.post('/api/v1/users', {
-        username: username.value,
-        email: email.value,
-        password: password.value
-    })
+    const {passwordRepeat, ...body} = formState;
+    axios.post('/api/v1/users', body);
 }
 </script>
