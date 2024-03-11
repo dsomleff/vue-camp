@@ -1,9 +1,11 @@
 <script>
-import {useCoachesStore} from '@/stores/coaches/coachesStore.js';
+import { useCoachesStore } from '@/stores/coaches/coachesStore.js';
 import CoachItem from '@/components/coaches/CoachItem.vue';
+import BaseCard from '@/components/ui/BaseCard.vue';
+import BaseButton from '@/components/ui/BaseButton.vue';
 
 export default {
-    components: { CoachItem },
+    components: { BaseButton, BaseCard, CoachItem },
     data() {
         return { coachesStore: useCoachesStore() }
     },
@@ -24,28 +26,36 @@ export default {
     </section>
 
     <section>
-        <p class="controls">
-            <button>Refresh</button>
-            <RouterLink :to="{name: 'register'}">
-                Register as Coach
-            </RouterLink>
-        </p>
+        <base-card>
+            <p class="controls">
+                <base-button mode="outline">
+                    Refresh
+                </base-button>
 
-        <ul v-if="hasCoaches">
-            <coach-item
-                v-for="coach in filteredCoaches"
-                :id="coach.id"
-                :key="coach.id"
-                :first-name="coach.firstName"
-                :last-name="coach.lastName"
-                :rate="coach.hourlyRate"
-                :areas="coach.areas"
-            />
-        </ul>
+                <base-button
+                    link
+                    to="/register"
+                >
+                    Register as Coach
+                </base-button>
+            </p>
 
-        <h3 v-else>
-            No Coaches Found
-        </h3>
+            <ul v-if="hasCoaches">
+                <coach-item
+                    v-for="coach in filteredCoaches"
+                    :id="coach.id"
+                    :key="coach.id"
+                    :first-name="coach.firstName"
+                    :last-name="coach.lastName"
+                    :rate="coach.hourlyRate"
+                    :areas="coach.areas"
+                />
+            </ul>
+
+            <h3 v-else>
+                No Coaches Found
+            </h3>
+        </base-card>
     </section>
 </template>
 

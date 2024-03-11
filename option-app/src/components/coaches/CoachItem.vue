@@ -1,5 +1,9 @@
 <script>
+import BaseButton from '@/components/ui/BaseButton.vue';
+import BaseBadge from '@/components/ui/BaseBadge.vue';
+
 export default {
+    components: { BaseBadge, BaseButton },
     props: ['id', 'firstName', 'lastName', 'rate', 'areas'],
     computed:{
         fullName() {
@@ -24,22 +28,28 @@ export default {
         <h4>${{ rate }}/hour</h4>
 
         <section>
-            <span
+            <base-badge
                 v-for="area in areas"
                 :key="area"
-            >
-                {{ area }}
-            </span>
+                :type="area"
+                :title="area"
+            />
         </section>
 
         <section class="actions">
-            <RouterLink :to="coachContactLink">
+            <base-button
+                mode="outline"
+                :to="coachContactLink"
+            >
                 Contact
-            </RouterLink>
+            </base-button>
 
-            <RouterLink :to="coachDetailedLink">
+            <base-button
+                link
+                :to="coachDetailedLink"
+            >
                 View Detail
-            </RouterLink>
+            </base-button>
         </section>
     </li>
 </template>
