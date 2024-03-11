@@ -1,3 +1,26 @@
+<script setup>
+import { computed, reactive } from 'vue';
+import axios from 'axios';
+
+const formState = reactive({
+    username: '',
+    email: '',
+    password: '',
+    passwordRepeat: ''
+});
+
+const isDisabled = computed(() => {
+    return formState.password !== formState.passwordRepeat
+        || !formState.password
+        || !formState.passwordRepeat;
+});
+
+const submit = () => {
+    const {passwordRepeat, ...body} = formState;
+    axios.post('/api/v1/users', body);
+}
+</script>
+
 <template>
     <h1>Sign Up</h1>
 
@@ -42,26 +65,3 @@
         SignUp
     </button>
 </template>
-
-<script setup>
-import { computed, reactive } from 'vue';
-import axios from 'axios';
-
-const formState = reactive({
-    username: '',
-    email: '',
-    password: '',
-    passwordRepeat: ''
-});
-
-const isDisabled = computed(() => {
-    return formState.password !== formState.passwordRepeat
-        || !formState.password
-        || !formState.passwordRepeat;
-});
-
-const submit = () => {
-    const {passwordRepeat, ...body} = formState;
-    axios.post('/api/v1/users', body);
-}
-</script>
