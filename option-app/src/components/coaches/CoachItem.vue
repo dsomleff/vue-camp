@@ -11,7 +11,7 @@ export default {
         },
 
         coachContactLink() {
-            return this.$route.path + '/' + this.is + '/contact';
+            return this.$route.path + '/' + this.id + '/contact';
         },
 
         coachDetailedLink() {
