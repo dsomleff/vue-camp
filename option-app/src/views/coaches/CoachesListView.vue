@@ -1,8 +1,9 @@
 <script>
 import {useCoachesStore} from '@/stores/coaches/coachesStore.js';
+import CoachItem from '@/components/coaches/CoachItem.vue';
 
 export default {
-    name: 'PokemonDetails',
+    components: { CoachItem },
     data() {
         return { coachesStore: useCoachesStore() }
     },
@@ -31,12 +32,15 @@ export default {
         </p>
 
         <ul v-if="hasCoaches">
-            <li
+            <coach-item
                 v-for="coach in filteredCoaches"
+                :id="coach.id"
                 :key="coach.id"
-            >
-                {{ coach.firstName }}
-            </li>
+                :first-name="coach.firstName"
+                :last-name="coach.lastName"
+                :rate="coach.hourlyRate"
+                :areas="coach.areas"
+            />
         </ul>
 
         <h3 v-else>
@@ -44,3 +48,5 @@ export default {
         </h3>
     </section>
 </template>
+
+<style scoped src="../../../styles/coaches-list.css"></style>
