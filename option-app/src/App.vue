@@ -1,21 +1,16 @@
-<script setup>
-import { RouterLink, RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+<script>
+import { RouterLink, RouterView } from 'vue-router';
+import TheHeader from '@/components/layout/TheHeader.vue';
+
+export default {
+    components: {TheHeader},
+}
 </script>
 
 <template>
-  <header>
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+    <the-header />
 
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
-        <RouterLink to="/about">About</RouterLink>
-      </nav>
-    </div>
-  </header>
-
-  <RouterView />
+    <RouterView />
 </template>
 
-<style scoped></style>
+<style src="../styles/app.css"></style>
