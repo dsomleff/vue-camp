@@ -3,18 +3,39 @@ import { useCoachesStore } from '@/stores/coaches/coachesStore.js';
 import CoachItem from '@/components/coaches/CoachItem.vue';
 import BaseCard from '@/components/ui/BaseCard.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
+import CoachFilter from '@/components/coaches/CoachFilter.vue';
 
 export default {
-    components: { BaseButton, BaseCard, CoachItem },
+    components: { CoachFilter, BaseButton, BaseCard, CoachItem },
     data() {
-        return { coachesStore: useCoachesStore() }
+        return {
+            coachesStore: useCoachesStore(),
+            activeFilters: {
+                frontend: true,
+                backend: true,
+                career: true
+            }
+        }
     },
     computed: {
         filteredCoaches() {
-            return this.coachesStore.getCoaches;
+            const coaches =  this.coachesStore.getCoaches;
+
+            return coaches.filter(coach => {
+                for (const area in this.activeFilters) {
+                    if (this.activeFilters[area] && coach.areas.includes(area))
+                        return true;
+                }
+                return false;
+            });
         },
         hasCoaches() {
             return this.coachesStore.hasCoaches;
+        }
+    },
+    methods: {
+        setFilters(updatedFilters) {
+            return this.activeFilters = updatedFilters;
         }
     }
 }
@@ -22,7 +43,7 @@ export default {
 
 <template>
     <section>
-        FILTER
+        <coach-filter @change-filters="setFilters" />
     </section>
 
     <section>
