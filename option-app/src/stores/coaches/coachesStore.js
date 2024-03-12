@@ -1,5 +1,7 @@
 import { defineStore } from 'pinia'
 import { getCoaches, hasCoaches } from '@/stores/coaches/coachesGetters.js';
+import * as mutations from '@/stores/coaches/mutations.js';
+import * as actions from '@/stores/coaches/actions.js';
 
 export const useCoachesStore = defineStore('coaches', {
     state: () => ({
@@ -28,5 +30,11 @@ export const useCoachesStore = defineStore('coaches', {
     getters: {
         getCoaches,
         hasCoaches
-    }
+    },
+    mutations: {
+        ...mutations
+    },
+    actions: {
+        ...actions
+    },
 })

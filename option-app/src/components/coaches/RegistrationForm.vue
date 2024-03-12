@@ -1,28 +1,46 @@
 <script>
 import BaseButton from '@/components/ui/BaseButton.vue';
+import { RegisterFormSchema } from '@/schemas/RegisterFormSchema.js';
 
 export default {
     components: {BaseButton},
+    emits: ['save-data'],
     data() {
         return {
-            firstName: '',
-            lastName: '',
-            description: '',
-            rate: null,
-            areas: []
+            formData: {
+                firstName: '',
+                lastName: '',
+                description: '',
+                rate: null,
+                areas: []
+            },
+            formErrors: {}
         }
     },
     methods: {
         submitForm() {
-            const formData = {
-                first: this.firstName,
-                last: this.lastName,
-                desc: this.description,
-                rate: this.rate,
-                areas: this.areas
-            };
+            const { error } = RegisterFormSchema.safeParse(this.formData);
 
-            console.log(formData);
+            if (error) {
+                this.formErrors = error.errors.reduce((errors, errorMessage) => {
+                    const field = errorMessage.path[0];
+                    const message = errorMessage.message;
+
+                    return { ...errors, [field]: message.trim() };
+                }, {});
+            } else {
+                this.formErrors = {};
+
+                const formData = {
+                    first: this.formData.firstName,
+                    last: this.formData.lastName,
+                    desc: this.formData.description,
+                    rate: this.formData.rate,
+                    areas: this.formData.areas
+                };
+
+                this.$emit('save-data', formData);
+            }
         }
     }
 }
@@ -30,50 +48,78 @@ export default {
 
 <template>
     <form @submit.prevent="submitForm">
-        <p class="form-control">
-            <label for="firstname">First Name</label>
+        <p
+            class="form-control"
+            :class="{invalid: formErrors.firstName}"
+        >
+            <label
+                for="firstname"
+            >
+                First Name
+            </label>
+
             <input
                 id="firstname"
-                v-model.trim="firstName"
+                v-model.trim="formData.firstName"
                 type="text"
             >
+
+            <span
+                v-if="formErrors.firstName"
+                class="invalid"
+            >{{ formErrors.firstName }}</span>
         </p>
 
-        <p class="form-control">
+        <p
+            class="form-control"
+            :class="{invalid: formErrors.lastName}"
+        >
             <label for="lastname">Last Name</label>
             <input
                 id="lastname"
-                v-model.trim="lastName"
+                v-model.trim="formData.lastName"
                 type="text"
             >
+            <span v-if="formErrors.lastName">{{ formErrors.lastName }}</span>
         </p>
 
-        <p class="form-control">
+        <p
+            class="form-control"
+            :class="{invalid: formErrors.description}"
+        >
             <label for="description">Description</label>
             <textarea
                 id="description"
-                v-model.trim="description"
+                v-model.trim="formData.description"
                 rows="5"
             />
+            <span v-if="formErrors.description">{{ formErrors.description }}</span>
         </p>
 
-        <p class="form-control">
+        <p
+            class="form-control"
+            :class="{invalid: formErrors.rate}"
+        >
             <label for="rate">Hour Rate</label>
             <input
                 id="rate"
-                v-model.number="rate"
+                v-model.number="formData.rate"
                 type="number"
             >
+            <span v-if="formErrors.rate">{{ formErrors.rate }}</span>
         </p>
 
-        <section class="form-control">
+        <section
+            class="form-control"
+            :class="{invalid: formErrors.areas}"
+        >
             <h3>Areas of your Expertise</h3>
 
             <p>
                 <label for="frontend">Frontend</label>
                 <input
                     id="frontend"
-                    v-model="areas"
+                    v-model="formData.areas"
                     type="checkbox"
                     value="frontend"
                 >
@@ -83,7 +129,7 @@ export default {
                 <label for="backend">Backend</label>
                 <input
                     id="backend"
-                    v-model="areas"
+                    v-model="formData.areas"
                     type="checkbox"
                     value="backend"
                 >
@@ -93,11 +139,15 @@ export default {
                 <label for="career">Career</label>
                 <input
                     id="career"
-                    v-model="areas"
+                    v-model="formData.areas"
                     type="checkbox"
                     value="career"
                 >
             </p>
+            <span
+                v-if="formErrors.areas"
+                class="invalid"
+            >{{ formErrors.areas }}</span>
         </section>
 
         <base-button>Register</base-button>
