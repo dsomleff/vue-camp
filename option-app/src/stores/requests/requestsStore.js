@@ -14,7 +14,11 @@ export const useRequestsStore = defineStore('requests', () => {
         
         requests.push(newRequest);
     }
+    
+    const getRequests = computed(() => {
+        return requests;
+    });
 
     
-    return {requests, contactCoach}
+    return {requests, contactCoach, getRequests}
 })
