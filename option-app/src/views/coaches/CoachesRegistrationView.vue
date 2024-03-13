@@ -1,7 +1,7 @@
 <script>
 import RegistrationForm from '@/components/coaches/RegistrationForm.vue';
 import BaseCard from '@/components/ui/BaseCard.vue';
-import {useCoachesStore} from '@/stores/coaches/coachesStore.js';
+import {useCoachesStore} from '@/stores/coaches/coachesStoreOld.js';
 
 export default {
     components:{
