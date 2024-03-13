@@ -38,6 +38,7 @@ export default {
 
         <section class="actions">
             <base-button
+                link
                 mode="outline"
                 :to="coachContactLink"
             >
