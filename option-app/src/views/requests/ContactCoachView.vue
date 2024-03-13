@@ -2,6 +2,7 @@
 import BaseButton from '@/components/ui/BaseButton.vue';
 import { ContactCoachSchema } from '@/schemas/ContactCoachSchema.js';
 import { useRequestsStore } from '@/stores/requests/requestsStore.js';
+import { handleFormErrors } from '@/utils/handleFormErrors.js';
 
 export default {
     components: {BaseButton},
@@ -15,15 +16,13 @@ export default {
     },
     methods: {
         submitForm() {
-            const { error } = ContactCoachSchema.safeParse({email: this.email, message: this.message});
+            const formErrors = handleFormErrors(
+                {email: this.email, message: this.message},
+                ContactCoachSchema
+            );
 
-            if (error) {
-                this.formErrors = error.errors.reduce((errors, errorMessage) => {
-                    const field = errorMessage.path[0];
-                    const message = errorMessage.message;
-
-                    return { ...errors, [field]: message.trim() };
-                }, {});
+            if (formErrors) {
+                this.formErrors = formErrors;
             } else {
                 this.requestStore.contactCoach({
                     coachId: this.$route.params.id,

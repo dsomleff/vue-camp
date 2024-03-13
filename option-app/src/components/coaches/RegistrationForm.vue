@@ -1,6 +1,7 @@
 <script>
 import BaseButton from '@/components/ui/BaseButton.vue';
 import { RegisterFormSchema } from '@/schemas/RegisterFormSchema.js';
+import { handleFormErrors } from '@/utils/handleFormErrors.js';
 
 export default {
     components: {BaseButton},
@@ -19,15 +20,10 @@ export default {
     },
     methods: {
         submitForm() {
-            const { error } = RegisterFormSchema.safeParse(this.formData);
+            const formErrors = handleFormErrors(this.formData, RegisterFormSchema);
 
-            if (error) {
-                this.formErrors = error.errors.reduce((errors, errorMessage) => {
-                    const field = errorMessage.path[0];
-                    const message = errorMessage.message;
-
-                    return { ...errors, [field]: message.trim() };
-                }, {});
+            if (formErrors) {
+                this.formErrors = formErrors;
             } else {
                 this.formErrors = {};
 
