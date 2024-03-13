@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia'
 import { getCoaches, hasCoaches } from '@/stores/coaches/coachesGetters.js';
-import * as mutations from '@/stores/coaches/mutations.js';
-import * as actions from '@/stores/coaches/actions.js';
+import {registerCoach} from '@/stores/coaches/coachesActions.js';
 
 export const useCoachesStore = defineStore('coaches', {
     state: () => ({
@@ -31,10 +30,7 @@ export const useCoachesStore = defineStore('coaches', {
         getCoaches,
         hasCoaches
     },
-    mutations: {
-        ...mutations
-    },
     actions: {
-        ...actions
+        registerCoach
     },
 })
