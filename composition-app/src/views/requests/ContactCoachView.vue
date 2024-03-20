@@ -1,51 +1,50 @@
-<script>
+<script setup>
+
+import { reactive } from 'vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import { ContactCoachSchema } from '@/schemas/ContactCoachSchema.js';
 import { useRequestsStore } from '@/stores/requests/requestsStore.js';
 import { handleFormErrors } from '@/utils/handleFormErrors.js';
+import { useRouter, useRoute } from 'vue-router';
 
-export default {
-    components: {BaseButton},
-    data() {
-        return {
-            email: '',
-            message: '',
-            formErrors: {},
-            requestStore: useRequestsStore()
-        }
-    },
-    methods: {
-        submitForm() {
-            const formErrors = handleFormErrors(
-                {email: this.email, message: this.message},
-                ContactCoachSchema
-            );
+const requestStore = useRequestsStore();
+const router = useRouter();
+const route = useRoute();
 
-            if (formErrors) {
-                this.formErrors = formErrors;
-            } else {
-                this.requestStore.contactCoach({
-                    coachId: this.$route.params.id,
-                    email: this.email,
-                    message: this.message
-                });
+const formData = reactive({
+    email: '',
+    message: ''
+});
 
-                this.$router.replace('/coaches');
-            }
-        }
+const formErrors = reactive({});
+
+
+function submitForm() {
+    const errors = handleFormErrors(
+        formData,
+        ContactCoachSchema
+    );
+
+    if (errors) {
+        Object.assign(formErrors, errors);
+    } else {
+        requestStore.contactCoach({
+            coachId: route.params.id,
+            email: formData.email,
+            message: formData.message
+        });
+
+        router.replace('/coaches');
     }
 }
 </script>
-
 <template>
     <form @submit.prevent="submitForm">
         <p class="form-control">
-            <label for="email">
-                Your E-mail
-            </label>
+            <label for="email">Your E-mail</label>
             <input
                 id="email"
-                v-model.trim="email"
+                v-model.trim="formData.email"
                 type="email"
             >
             <span
@@ -55,12 +54,10 @@ export default {
         </p>
 
         <p class="form-control">
-            <label for="message">
-                Message
-            </label>
+            <label for="message">Message</label>
             <textarea
                 id="message"
-                v-model.trim="message"
+                v-model.trim="formData.message"
                 rows="5"
             />
             <span
