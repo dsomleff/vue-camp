@@ -2,44 +2,26 @@
 
 import { reactive } from 'vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
-import { ContactCoachSchema } from '@/schemas/ContactCoachSchema.js';
-import { useRequestsStore } from '@/stores/requests/requestsStore.js';
-import { handleFormErrors } from '@/utils/handleFormErrors.js';
-import { useRouter, useRoute } from 'vue-router';
+import { submitForm } from '@/views/requests/_services/ContactCoachService.js';
+import { useRoute, useRouter } from 'vue-router';
 
-const requestStore = useRequestsStore();
-const router = useRouter();
 const route = useRoute();
+const router = useRouter();
+const formErrors = reactive({});
 
 const formData = reactive({
     email: '',
     message: ''
 });
 
-const formErrors = reactive({});
-
-
-function submitForm() {
-    const errors = handleFormErrors(
-        formData,
-        ContactCoachSchema
-    );
-
-    if (errors) {
-        Object.assign(formErrors, errors);
-    } else {
-        requestStore.contactCoach({
-            coachId: route.params.id,
-            email: formData.email,
-            message: formData.message
-        });
-
-        router.replace('/coaches');
-    }
+const handleSubmitForm = () => {
+    submitForm(formData, formErrors, route, router);
 }
+
 </script>
+
 <template>
-    <form @submit.prevent="submitForm">
+    <form @submit.prevent="handleSubmitForm">
         <p class="form-control">
             <label for="email">Your E-mail</label>
             <input
