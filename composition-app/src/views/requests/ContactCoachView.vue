@@ -49,7 +49,7 @@ const handleSubmitForm = () => {
         </p>
 
         <p class="actions">
-            <base-button>Send Message</base-button>
+            <BaseButton>Send Message</BaseButton>
         </p>
     </form>
 </template>

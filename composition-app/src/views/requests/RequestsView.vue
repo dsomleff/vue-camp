@@ -1,33 +1,25 @@
-<script>
+<script setup>
 import BaseCard from '@/components/ui/BaseCard.vue';
 import { useRequestsStore } from '@/stores/requests/requestsStore.js';
 import RequestItem from '@/components/requests/RequestItem.vue';
+import {computed} from 'vue';
 
-export default {
-    components: { RequestItem, BaseCard},
-    data() {
-        return {
-            requestsStore: useRequestsStore()
-        }
-    },
-    computed: {
-        receivedRequests() {
-            return this.requestsStore.getRequests;
-        }
-    }
+const requestStore = useRequestsStore();
 
-}
+const receivedRequests = computed(() => {
+    return requestStore.getRequests;
+})
 </script>
 
 <template>
     <section>
-        <base-card>
+        <BaseCard>
             <header>
                 <h2>Requests Received</h2>
             </header>
 
             <ul v-if="receivedRequests.length > 0">
-                <request-item
+                <RequestItem
                     v-for="request in receivedRequests"
                     :key="request.id"
                     :email="request.userEmail"
@@ -38,7 +30,7 @@ export default {
             <p v-else>
                 No Requests Found
             </p>
-        </base-card>
+        </BaseCard>
     </section>
 </template>
 
