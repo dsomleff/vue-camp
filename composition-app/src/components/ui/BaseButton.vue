@@ -1,20 +1,20 @@
-<script>
-export default {
-    props: {
-        link: {
-            type: Boolean,
-            default: false
-        },
-        to: {
-            type: String,
-            default: '/'
-        },
-        mode: {
-            type: String,
-            default: null,
-        }
+<script setup>
+
+defineProps({
+    link: {
+        type: Boolean,
+        default: false
+    },
+    to: {
+        type: String,
+        default: '/'
+    },
+    mode: {
+        type: String,
+        default: null,
     }
-}
+});
+
 </script>
 
 <template>

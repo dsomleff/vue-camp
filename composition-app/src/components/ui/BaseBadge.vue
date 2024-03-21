@@ -1,21 +1,21 @@
-<script>
-export default {
-    props: {
-        type: {
-            type: String,
-            default: ''
-        },
-        title: {
-            type: String,
-            default: ''
-        }
+<script setup>
+
+import {computed} from 'vue';
+
+const props = defineProps({
+    type: {
+        type: String,
+        default: ''
     },
-    computed: {
-        text() {
-            return this.title.toUpperCase();
-        }
+    title: {
+        type: String,
+        default: ''
     }
-}
+});
+
+const text = computed(() => {
+    return props.title.toUpperCase();
+})
 </script>
 
 <template>
