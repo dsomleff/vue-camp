@@ -1,39 +1,26 @@
-<script>
+<script setup>
+
 import BaseCard from '@/components/ui/BaseCard.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import BaseBadge from '@/components/ui/BaseBadge.vue';
 import { useCoachesStore } from '@/stores/coaches/coachesStore.js';
+import { useRoute } from 'vue-router';
 
-export default {
-    components: {BaseCard, BaseButton, BaseBadge},
-    props: ['id'],
-    data() {
-        return {
-            selectedCoach: null,
-            coachesStore: useCoachesStore()
-        };
-    },
-    computed: {
-        fullName() {
-            return this.selectedCoach.firstName + ' ' + this.selectedCoach.lastName;
-        },
-        contactLink() {
-            return this.$route.path + '/' + this.id + '/contact';
-        },
-        areas() {
-            return this.selectedCoach.areas;
-        },
-        rate(){
-            return this.selectedCoach.hourlyRate;
-        },
-        description() {
-            return this.selectedCoach.description;
-        }
-    },
-    created() {
-        this.selectedCoach = this.coachesStore.getCoaches.find(coach => coach.id === this.id);
+const props = defineProps({
+    id: {
+        type: String,
+        required: true
     }
-}
+});
+
+const { getCoaches } = useCoachesStore();
+const selectedCoach = getCoaches.find(coach => coach.id === props.id);
+const fullName = selectedCoach ? selectedCoach.firstName + ' ' + selectedCoach.lastName : '';
+const contactLink = useRoute().path + '/' + props.id + '/contact';
+const areas = selectedCoach ? selectedCoach.areas : [];
+const rate = selectedCoach ? selectedCoach.hourlyRate : '';
+const description = selectedCoach ? selectedCoach.description : '';
+
 </script>
 
 <template>
