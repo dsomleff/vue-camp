@@ -1,32 +1,19 @@
-<script>
+<script setup>
 import RegistrationForm from '@/components/coaches/RegistrationForm.vue';
 import BaseCard from '@/components/ui/BaseCard.vue';
-import {useCoachesStore} from '@/stores/coaches/coachesStoreOld.js';
+import { useCoachRegistration } from '@/views/coaches/_hooks/useCoachRegistration.js';
+import { useRouter } from 'vue-router';
 
-export default {
-    components:{
-        BaseCard,
-        RegistrationForm,
-    },
-    data() {
-        return {
-            coachStore: useCoachesStore(),
-        }
-    },
-    methods: {
-        saveData(data) {
-            this.coachStore.registerCoach(data);
-            this.$router.replace('/coaches');
-        }
-    }
-}
+const router = useRouter();
+const { saveData } = useCoachRegistration(router);
 </script>
+
 <template>
     <section>
-        <base-card>
+        <BaseCard>
             <h2>Register as a Coach</h2>
 
-            <registration-form @save-data="saveData" />
-        </base-card>
+            <RegistrationForm @save-data="saveData" />
+        </BaseCard>
     </section>
 </template>
