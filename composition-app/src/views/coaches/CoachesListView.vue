@@ -1,64 +1,35 @@
-<script>
+<script setup>
 import { useCoachesStore } from '@/stores/coaches/coachesStoreOld.js';
 import CoachItem from '@/components/coaches/CoachItem.vue';
 import BaseCard from '@/components/ui/BaseCard.vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import CoachFilter from '@/components/coaches/CoachFilter.vue';
+import { useFilteredCoaches } from '@/views/coaches/_hooks/useFilteredCoaches.js';
 
-export default {
-    components: { CoachFilter, BaseButton, BaseCard, CoachItem },
-    data() {
-        return {
-            coachesStore: useCoachesStore(),
-            activeFilters: {
-                frontend: true,
-                backend: true,
-                career: true
-            }
-        }
-    },
-    computed: {
-        filteredCoaches() {
-            const coaches =  this.coachesStore.getCoaches;
+const coachesStore = useCoachesStore();
 
-            return coaches.filter(coach => {
-                for (const area in this.activeFilters) {
-                    if (this.activeFilters[area] && coach.areas.includes(area))
-                        return true;
-                }
-                return false;
-            });
-        },
-        hasCoaches() {
-            return this.coachesStore.hasCoaches;
-        }
-    },
-    methods: {
-        setFilters(updatedFilters) {
-            return this.activeFilters = updatedFilters;
-        }
-    }
-}
+const { filteredCoaches, hasCoaches, setFilters } = useFilteredCoaches(coachesStore);
+
 </script>
 
 <template>
     <section>
-        <coach-filter @change-filters="setFilters" />
+        <CoachFilter @change-filters="setFilters" />
     </section>
 
     <section>
-        <base-card>
+        <BaseCard>
             <p class="controls">
-                <base-button
+                <BaseButton
                     link
                     to="/register"
                 >
                     Register as Coach
-                </base-button>
+                </BaseButton>
             </p>
 
             <ul v-if="hasCoaches">
-                <coach-item
+                <CoachItem
                     v-for="coach in filteredCoaches"
                     :id="coach.id"
                     :key="coach.id"
@@ -72,7 +43,7 @@ export default {
             <h3 v-else>
                 No Coaches Found
             </h3>
-        </base-card>
+        </BaseCard>
     </section>
 </template>
 
