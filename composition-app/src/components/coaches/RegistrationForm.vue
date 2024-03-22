@@ -1,45 +1,38 @@
-<script>
+<script setup>
+import { ref, defineEmits } from 'vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
 import { RegisterFormSchema } from '@/schemas/RegisterFormSchema.js';
 import { handleFormErrors } from '@/utils/handleFormErrors.js';
 
-export default {
-    components: {BaseButton},
-    emits: ['save-data'],
-    data() {
-        return {
-            formData: {
-                firstName: '',
-                lastName: '',
-                description: '',
-                rate: null,
-                areas: []
-            },
-            formErrors: {}
-        }
-    },
-    methods: {
-        submitForm() {
-            const formErrors = handleFormErrors(this.formData, RegisterFormSchema);
+const emits = defineEmits(['save-data']);
 
-            if (formErrors) {
-                this.formErrors = formErrors;
-            } else {
-                this.formErrors = {};
+const formData = ref({
+    firstName: '',
+    lastName: '',
+    description: '',
+    rate: null,
+    areas: []
+});
 
-                const formData = {
-                    first: this.formData.firstName,
-                    last: this.formData.lastName,
-                    desc: this.formData.description,
-                    rate: this.formData.rate,
-                    areas: this.formData.areas
-                };
+const formErrors = ref({});
 
-                this.$emit('save-data', formData);
-            }
-        }
+const submitForm = () => {
+    const errors = handleFormErrors(formData.value, RegisterFormSchema);
+    if (errors) {
+        formErrors.value = errors;
+    } else {
+        formErrors.value = {};
+        const data = {
+            first: formData.value.firstName,
+            last: formData.value.lastName,
+            desc: formData.value.description,
+            rate: formData.value.rate,
+            areas: formData.value.areas
+        };
+
+        emits('save-data', data);
     }
-}
+};
 </script>
 
 <template>
@@ -146,7 +139,7 @@ export default {
             >{{ formErrors.areas }}</span>
         </section>
 
-        <base-button>Register</base-button>
+        <BaseButton>Register</BaseButton>
     </form>
 </template>
 

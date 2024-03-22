@@ -26,7 +26,7 @@ const coachDetailedLink = computed(() => {
         <h4>${{ rate }}/hour</h4>
 
         <section>
-            <base-badge
+            <BaseBadge
                 v-for="area in areas"
                 :key="area"
                 :type="area"
@@ -35,20 +35,20 @@ const coachDetailedLink = computed(() => {
         </section>
 
         <section class="actions">
-            <base-button
+            <BaseButton
                 link
                 mode="outline"
                 :to="coachContactLink"
             >
                 Contact
-            </base-button>
+            </BaseButton>
 
-            <base-button
+            <BaseButton
                 link
                 :to="coachDetailedLink"
             >
                 View Detail
-            </base-button>
+            </BaseButton>
         </section>
     </li>
 </template>
