@@ -1,24 +1,22 @@
-<script>
+<script setup>
 import BaseButton from '@/components/ui/BaseButton.vue';
 import BaseBadge from '@/components/ui/BaseBadge.vue';
+import { computed } from 'vue';
+import { useRoute } from 'vue-router';
 
-export default {
-    components: { BaseBadge, BaseButton },
-    props: ['id', 'firstName', 'lastName', 'rate', 'areas'],
-    computed:{
-        fullName() {
-            return this.firstName + ' ' + this.lastName;
-        },
+const props = defineProps(['id', 'firstName', 'lastName', 'rate', 'areas']);
 
-        coachContactLink() {
-            return this.$route.path + '/' + this.id + '/contact';
-        },
+const fullName = computed(() => {
+    return props.firstName + ' ' + props.lastName;
+});
 
-        coachDetailedLink() {
-            return this.$route.path + '/' + this.id;
-        }
-    }
-}
+const coachContactLink = computed(() => {
+    return useRoute().path + '/' + props.id + '/contact';
+});
+
+const coachDetailedLink = computed(() => {
+    return useRoute().path + '/' + props.id;
+});
 </script>
 
 <template>
