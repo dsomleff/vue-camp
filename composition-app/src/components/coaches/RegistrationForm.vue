@@ -1,8 +1,7 @@
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { defineEmits, ref } from 'vue';
 import BaseButton from '@/components/ui/BaseButton.vue';
-import { RegisterFormSchema } from '@/schemas/RegisterFormSchema.js';
-import { handleFormErrors } from '@/utils/handleFormErrors.js';
+import { useFormSubmit } from '@/components/coaches/_composable/useFormSubmit.js';
 
 const emits = defineEmits(['save-data']);
 
@@ -16,23 +15,7 @@ const formData = ref({
 
 const formErrors = ref({});
 
-const submitForm = () => {
-    const errors = handleFormErrors(formData.value, RegisterFormSchema);
-    if (errors) {
-        formErrors.value = errors;
-    } else {
-        formErrors.value = {};
-        const data = {
-            first: formData.value.firstName,
-            last: formData.value.lastName,
-            desc: formData.value.description,
-            rate: formData.value.rate,
-            areas: formData.value.areas
-        };
-
-        emits('save-data', data);
-    }
-};
+const { submitForm } = useFormSubmit(formData, formErrors, emits);
 </script>
 
 <template>
