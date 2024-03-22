@@ -1,37 +1,30 @@
-<script>
+<script setup>
 import BaseCard from '@/components/ui/BaseCard.vue';
+import { ref } from 'vue';
 
-export default {
-    components: {BaseCard},
-    emits: ['change-filters'],
-    data() {
-        return {
-            filters: {
-                frontend: true,
-                backend: true,
-                career: true,
-            }
-        }
-    },
-    methods: {
-        setFilter(event) {
-            const inputId = event.target.id;
-            const isActive = event.target.checked;
+const filters = ref({
+    frontend: true,
+    backend: true,
+    career: true,
+});
 
-            const updatedFilters = {
-                ...this.filters,
-                [inputId]: isActive
-            };
+const setFilter = event => {
+    const inputId = event.target.id;
+    const isActive = event.target.checked;
 
-            this.filters = updatedFilters;
-            this.$emit('change-filters', updatedFilters);
-        }
-    }
+    const updatedFilters = {
+        ...filters.value,
+        [inputId]: isActive
+    };
+
+    filters.value = updatedFilters;
+    emit('change-filters', updatedFilters);
 }
+
 </script>
 
 <template>
-    <base-card>
+    <BaseCard>
         <h2>Find your Coach</h2>
 
         <span class="filter-option">
@@ -63,7 +56,7 @@ export default {
                 @change="setFilter"
             >
         </span>
-    </base-card>
+    </BaseCard>
 </template>
 
 <style scoped src="../../../styles/coach-filter.css"></style>
