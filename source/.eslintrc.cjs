@@ -15,6 +15,5 @@ module.exports = {
         'vue/max-attributes-per-line': 2,
         'indent': ['error', 4],
         'vue/html-indent': ['error', 4],
-        'vue/max-attributes-per-line': 2,
     }
 }

@@ -1,7 +1,11 @@
 <script setup>
-    import SignUp from '@/views/sign-up/SignUp.vue';
+import SignUp from '@/views/sign-up/SignUp.vue';
 </script>
 
 <template>
-    <SignUp/>
+    const juju = []
+    ju.iterable.map((item) => {
+        
+    })
+    <SignUp />
 </template>
