@@ -16,7 +16,6 @@ const isDisabled = computed(() => {
 });
 
 const submit = () => {
-    // eslint-disable-next-line no-unused-vars
     const {passwordRepeat, ...body} = formState;
     axios.post('/api/v1/users', body);
 }
